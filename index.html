@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Kelas Online</title>
-
+    <!-- Tailwind CSS untuk Desain Otomatis -->
     <script src="https://jsdelivr.net"></script>
 </head>
 <body class="bg-slate-100 flex items-center justify-center min-h-screen p-4 font-sans">
 
     <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-
+        <!-- Logo / Nama Brand Anda -->
         <div class="text-center mb-8">
             <h1 class="text-3xl font-bold text-indigo-600 tracking-tight">Kelas Online</h1>
             <p class="text-slate-500 text-sm mt-2">Silakan login untuk mengakses materi & checklist harian</p>
@@ -34,6 +34,36 @@
 
             <!-- Tombol Login -->
             <button type="submit" 
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl shadow-md transition-colors text-sm cursor-pointer">
+                Masuk ke Kelas
+            </button>
+        </form>
+
+        <!-- Footer -->
+        <p class="text-center text-xs text-slate-400 mt-8">
+            Butuh bantuan akses? Hubungi Admin via WhatsApp
+        </p>
+    </div>
+
+    <!-- Logika JavaScript Dasar -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Mencegah halaman reload otomatis
+            
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            // Simulasi Login Sederhana (Nanti bisa dihubungkan ke Firebase/Supabase)
+            if(user === "murid@kelas.com" && pass === "rahasia123") {
+                alert("Login Berhasil! Mengalihkan ke Dashboard...");
+                window.location.href = "dashboard.html"; // Aktifkan jika file dashboard sudah ada
+            } else {
+                alert("Email atau Password salah! Coba: murid@kelas.com / rahasia123");
+            }
+        });
+    </script>
+</body>
+</html>
                 class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl shadow-md transition-colors text-sm cursor-pointer">
                 Masuk ke Kelas
             </button>
