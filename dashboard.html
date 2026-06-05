@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Murid - Kelas Online</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 pb-12">
+
+    <!-- Top Navigation / Header Branding -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-10 px-4 py-4 shadow-xs">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold text-indigo-600">Kelas Online Saya</h1>
+                <p class="text-xs text-slate-400">Selamat datang, <span class="font-semibold text-slate-600">Budi Santoso</span></p>
+            </div>
+            <button onclick="logout()" class="text-xs bg-rose-50 text-rose-600 px-3 py-1.5 rounded-lg font-medium hover:bg-rose-100 cursor-pointer">
+                Keluar
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 mt-6 space-y-6">
+
+        <!-- SECTION 1: REPORT PROGRESS -->
+        <section class="bg-gradient-to-br from-indigo-600 to-violet-700 text-white p-6 rounded-2xl shadow-md">
+            <h2 class="text-lg font-bold mb-1">Laporan Progres Belajar</h2>
+            <p class="text-indigo-200 text-xs mb-4">Konsistensi adalah kunci keberhasilan</p>
+            
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-medium">Tugas Selesai</span>
+                <span id="progressText" class="text-sm font-bold">0%</span>
+            </div>
+            <!-- Progress Bar -->
+            <div class="w-full bg-indigo-900/40 rounded-full h-3 overflow-hidden">
+                <div id="progressBar" class="bg-emerald-400 h-full w-0 transition-all duration-500 rounded-full"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: ABSENSI HARIAN -->
+        <section class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <h2 class="font-bold text-base text-slate-900 mb-1">Absensi Hari Ini</h2>
+            <p class="text-xs text-slate-400 mb-4" id="currentDate">Memuat tanggal...</p>
+            
+            <div id="absensiBox" class="flex flex-col sm:flex-row gap-3">
+                <button onclick="absen('Hadir')" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-xl font-medium text-sm transition-all shadow-xs cursor-pointer">
+                    🙋‍♂️ Hadir
+                </button>
+                <button onclick="absen('Izin/Sakit')" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white py-3 rounded-xl font-medium text-sm transition-all shadow-xs cursor-pointer">
+                    ✉️ Izin / Sakit
+                </button>
+            </div>
+            <p id="absensiStatus" class="hidden text-center text-sm font-semibold text-emerald-600 bg-emerald-50 py-3 rounded-xl mt-2"></p>
+        </section>
+
+        <!-- SECTION 3: CHECKLIST HARIAN -->
+        <section class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <h2 class="font-bold text-base text-slate-900 mb-1">Checklist Tugas Harian</h2>
+            <p class="text-xs text-slate-400 mb-4">Centang setiap tugas yang sudah kamu selesaikan hari ini</p>
+            
+            <div class="space-y-3">
+                <!-- Item 1 -->
+                <label class="flex items-center p-3 bg-slate-50 rounded-xl border border-slate-100 hover:bg-slate-100/70 transition-all cursor-pointer">
+                    <input type="checkbox" class="task-checkbox w-5 h-5 text-indigo-600 border-slate-300 rounded-md focus:ring-indigo-500 mr-3" onchange="updateProgress()">
+                    <span class="text-sm font-medium text-slate-700">Menonton Video Materi Hari Ini</span>
+                </label>
+                <!-- Item 2 -->
+                <label class="flex items-center p-3 bg-slate-50 rounded-xl border border-slate-100 hover:bg-slate-100/70 transition-all cursor-pointer">
+                    <input type="checkbox" class="task-checkbox w-5 h-5 text-indigo-600 border-slate-300 rounded-md focus:ring-indigo-500 mr-3" onchange="updateProgress()">
+                    <span class="text-sm font-medium text-slate-700">Mengerjakan Latihan Kuis Akhir Bab</span>
+                </label>
+                <!-- Item 3 -->
+                <label class="flex items-center p-3 bg-slate-50 rounded-xl border border-slate-100 hover:bg-slate-100/70 transition-all cursor-pointer">
+                    <input type="checkbox" class="task-checkbox w-5 h-5 text-indigo-600 border-slate-300 rounded-md focus:ring-indigo-500 mr-3" onchange="updateProgress()">
+                    <span class="text-sm font-medium text-slate-700">Membaca Materi Ringkasan (PDF)</span>
+                </label>
+            </div>
+        </section>
+<!-- SECTION TAMBAHAN: AKSES INVOICE -->
+<section class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex justify-between items-center">
+    <div>
+        <h2 class="font-bold text-base text-slate-900">Tagihan Kursus</h2>
+        <p class="text-xs text-slate-400">Lihat rincian pembayaran kelas Anda</p>
+    </div>
+    <a href="invoice.html" class="bg-indigo-50 text-indigo-600 hover:bg-indigo-100 px-4 py-2 rounded-xl text-sm font-semibold transition-all">
+        Lihat Invoice
+    </a>
+</section>
+
+    </main>
+
+    <!-- JavaScript Logika Dashboard -->
+    <script>
+        // Menampilkan tanggal hari ini secara dinamis
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('id-ID', options);
+
+        // Fungsi Fitur Absensi
+        function absen(status) {
+            document.getElementById('absensiBox').classList.add('hidden');
+            const statusText = document.getElementById('absensiStatus');
+            statusText.classList.remove('hidden');
+            statusText.innerText = `Status Absensi Berhasil Disimpan: ${status}`;
+            alert(`Terima kasih! Kamu telah mengisi absensi sebagai: ${status}`);
+        }
+
+        // Fungsi Hitung Progres Otomatis dari Checklist
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            const totalTasks = checkboxes.length;
+            let checkedTasks = 0;
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    checkedTasks++;
+                }
+            });
+
+            const percentage = totalTasks > 0 ? Math.round((checkedTasks / totalTasks) * 100) : 0;
+            
+            // Update visual grafik bar dan teks angka %
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').innerText = percentage + '%';
+        }
+
+        function logout() {
+            alert("Keluar dari sistem...");
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>

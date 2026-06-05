@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tagihan Kelas Online</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+<body class="bg-slate-50 font-sans p-4 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
+        <!-- Header Brand -->
+        <div class="text-center border-b border-dashed border-slate-200 pb-4 mb-6">
+            <h1 class="text-2xl font-bold text-indigo-600">INVOICE RESMI</h1>
+            <p class="text-xs text-slate-400 mt-1">Kelas Online Bahasa Jepang</p>
+        </div>
+
+        <!-- Detail Tagihan (Bisa diisi manual atau otomatis) -->
+        <div class="space-y-4 text-sm mb-6">
+            <div class="flex justify-between">
+                <span class="text-slate-400">Nomor Invoice</span>
+                <span class="font-semibold text-slate-700" id="invNumber">INV/2026/001</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-400">Nama Siswa</span>
+                <span class="font-semibold text-slate-700">Budi Santoso</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-400">Nama Kelas</span>
+                <span class="font-semibold text-slate-700">Persiapan JLPT N4</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-400">Status</span>
+                <span class="px-2 py-0.5 text-xs font-medium bg-amber-50 text-amber-600 rounded-md">Belum Dibayar</span>
+            </div>
+            <hr class="border-slate-100 my-2">
+            <div class="flex justify-between text-base font-bold">
+                <span class="text-slate-800">Total Tagihan</span>
+                <span class="text-indigo-600">Rp 350.000</span>
+            </div>
+        </div>
+
+        <!-- Tombol Kirim ke WhatsApp -->
+        <button onclick="kirimInvoiceWA()" 
+            class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-3 rounded-xl shadow-md transition-colors text-sm flex items-center justify-center gap-2 cursor-pointer">
+            💬 Kirim Invoice via WhatsApp
+        </button>
+
+        <button onclick="window.history.back()" class="w-full text-center text-xs text-slate-400 mt-4 block underline">
+            Kembali ke Dashboard
+        </button>
+    </div>
+
+    <!-- Logika Otomasi Link WhatsApp -->
+    <script>
+        function kirimInvoiceWA() {
+            // 1. Masukkan nomor WhatsApp Murid (awali dengan kode negara 62, jangan pakai angka 0)
+            const nomorSiswa = "6281234567890"; // Silakan ganti dengan nomor tes Anda sendiri
+
+            // 2. Susun template teks invoice agar rapi saat terkirim
+            const teksInvoice = `*INFO TAGIHAN KELAS ONLINE*%0A` +
+                                `-----------------------------------%0A` +
+                                `Halo Kak *Budi Santoso*, berikut adalah detail tagihan kelas online Anda:%0A%0A` +
+                                `📌 *No. Invoice:* INV/2026/001%0A` +
+                                `📚 *Kelas:* Persiapan JLPT N4%0A` +
+                                `💰 *Total Biaya:* Rp 350.000%0A` +
+                                `⚠️ *Status:* Belum Dibayar%0A%0A` +
+                                `Silakan lakukan pembayaran melalui rekening resmi kelas ya kak. Terima kasih! 🙏`;
+
+            // 3. Buat URL Click to Chat resmi dari WhatsApp
+            const urlWA = `https://whatsapp.com{nomorSiswa}&text=${teksInvoice}`;
+
+            // 4. Buka aplikasi WhatsApp secara otomatis
+            window.open(urlWA, '_blank');
+        }
+    </script>
+</body>
+</html>
